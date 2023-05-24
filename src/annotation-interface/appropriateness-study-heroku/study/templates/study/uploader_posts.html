@@ -1,0 +1,55 @@
+{% load static %}
+{% include  "study/components/header.html" %}
+<div class="uk-container uk-container-large uk-text-center uk-margin-large">
+<form action="{% url 'upload_posts'  %}" enctype="multipart/form-data" method="post" class="uk-form-stacked">
+  {% csrf_token %}
+  {% if messages %}
+
+  {% for message in  messages %}
+  <div class="uk-alert uk-alert-danger" role="alert">{{message|safe}}</div>
+  {% endfor %}
+  {% endif %}
+  <div class="uk-form-controls">
+    <label>Upload a .csv file with the following columns in the header (same order): <strong>id</strong>, <strong>source</strong>, <strong>issue</strong>, <strong>batch</strong></label>
+    <div class="uk-form-controls">
+      <input name="file" type="file" required />
+    </div>
+  </div>
+  <br>
+  <div class="uk-form-controls">
+    <button type="submit" class="uk-button uk-button-primary">Upload</button>
+  </div>
+</form>
+</div>
+<div class="uk-alert uk-alert-primary uk-text-center" role="alert">{{count}} posts to be uploaded.</div>
+<div class="uk-container uk-margin-top uk-margin-left">
+
+
+  <h2>Study Posts - Current Data</h2>
+
+  {% if post_data|length > 0 %}
+  <table class="uk-table uk-table-hover">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Source</th>
+        <th scope="col">Issue</th>
+        <th scope="col">Batch</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for post in post_data  %}
+
+      <tr>
+        <td>{{post.id }}</td>
+        <td>{{post.source}}</td>
+        <td>{{post.issue }}</td>
+        <td>{{post.batch}}</td>
+      </tr>
+
+      {% endfor%}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% include "study/components/footer.html" %}

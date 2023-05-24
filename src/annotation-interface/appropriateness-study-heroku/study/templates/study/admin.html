@@ -1,0 +1,19 @@
+{% load static %}
+{% include  "study/components/header.html" %}
+
+
+<div class="uk-container uk-container-large uk-margin">
+
+    
+    <h1> View Data</h1>
+    <a href="{% url 'view_annotations' '1'  %}">View Annotations</a> <br>
+    <a href="{% url 'upload_posts'  %}">View/Upload Posts</a> <br>
+    <a href="{% url 'create_show_users'  %}">View/Add Users</a> <br>
+
+
+    <h1> Download csv File</h1>
+    <a href="{% url 'download_annotations'  %}"> <img src="{% static 'study/img/csv.png' %}" /> Annotations</a><br>
+    <a href="{% url 'download_users'  %}"><img src="{% static 'study/img/csv.png' %}" /> Users</a><br>
+    <a href="{% url 'download_posts'  %}"><img src="{% static 'study/img/csv.png' %}" /> Posts</a><br>
+</div>
+{% include "study/components/footer.html" %}

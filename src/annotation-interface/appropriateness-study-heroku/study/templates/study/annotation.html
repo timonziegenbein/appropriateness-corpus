@@ -1,0 +1,479 @@
+{% load static %}
+{% include  "study/components/header.html" %}
+
+<div class="uk-container uk-container-large uk-margin-bottom">
+
+  <div class="uk-margin-top">
+    <h4><a href="{% url 'dashboard' %}">
+        << Back to Dashboard </a> </h4> <div>Answer all the questions before submitting. The feedback is optional. 
+  </div>
+  <div class="uk-alert uk-alert-primary uk-text-center" role="alert">You annotated
+    {{annotated}} out of {{total}} arguments
+  </div>
+</div>
+<div class="uk-card uk-card-default uk-card-body">
+  <!--   <h5 class="uk-card-title">Id</h5>
+    <p>{{post.id}}</p>  -->
+  <h5 class="uk-card-title">Issue</h5>
+  <p>{{post.issue}}</p> <!-- TODO -->
+  <h5 class="uk-card-title">Argument</h5>
+  <p>{{post.source}}</p>
+  <h5 class="uk-card-title">Annotation</h5>
+  <div class="uk-container uk-container-large">
+    <form id="annotated-form" action="{% url 'save_annotation'  %}" method="post" class="uk-form-stacked" novalidate>
+      <input type="hidden" value="{{post.id}}" name="post_id" id="post_id">
+      <input type="hidden" value="{{post.source}}" name="post_text" id="post_text">
+      <input type="hidden" value="{{post.issue}}" name="post_issue" id="post_issue">
+
+      {% csrf_token %}
+      <!-- Flex container -->
+      <div class="uk-margin-medium-bottom candidate-container">
+        <!-- <div>
+          <p class="argument-text">{{post.source}}</p>
+          <input type="hidden" value="" name="model_name" id="model_name">
+          <p><span id="heading" class="model-name"></span>{{prediction}}</p>
+        </div> -->
+
+        <!-- Questions container-->
+        <div class="questions-container uk-flex">
+        
+          <!--Possible appropriateness question-->
+          <div class="uk-width-1-3">
+            <h5>How appropriate is the argument given the issue?</h5>
+            <div class="uk-form-controls">
+              <input class="uk-radio  appropriateness-question " type="radio"
+                name="appropriatenessQuestion" id="fully-reply" value="fully">
+              <label class="reply-label" for="fully-reply"> Fully appropriate</label> <br>
+              <input class="uk-radio  appropriateness-question" type="radio"
+                name="appropriatenessQuestion" id="partial-reply" value="partial">
+              <label class="reply-label" for="partial-reply"> Partially inappropriate</label><br>
+              <input class="uk-radio  appropriateness-question" type="radio"
+              name="appropriatenessQuestion" id="not-reply" value="not">
+              <label class="reply-label" for="not-reply"> Fully inappropriate</label>
+            </div>
+          </div>
+        </div>
+        <!-- End of questions container-->
+      <!-- Best appropriateness-->
+      <div class="uk-form-controls subcategory-container">
+        <HR width="90%"  color="#519459" size="2" style="margin-top: 20px; margin-bottom: 20px;">
+          <div class="uk-width-1-3">
+            <h5>The argument is (partially/fully) inappropriate because <strong>it appeals to unjustified emotions</strong> ...</h5>
+            <div class="uk-form-controls">
+              <input class="uk-radio  emotion-question " type="radio"
+                name="emotionQuestion" id="emotion-yes-reply" value="yes">
+              <label class="reply-label" for="emotion-yes-reply"> Yes</label> <br>
+              <input class="uk-radio  emotion-question" type="radio"
+                name="emotionQuestion" id="emotion-no-reply" value="no">
+              <label class="reply-label" for="emotion-no-reply"> No</label>
+            </div>
+            <div class="emotion-error-types" style="margin-left: 60%; margin-top:-5.2%; width:max-content" id="errors-of">
+              <div class="uk-container">
+                <input class="uk-radio error-question" type="checkbox" name="emotionErrorQuestion1"
+                  id="emotion1" value="emotion1">
+                <label class="reply-label" for="emotion1">... that are <strong>too strong for the issue</strong>
+                </label> <br>
+  
+                <input class="uk-radio error-question" type="checkbox" name="emotionErrorQuestion2"
+                  id="emotion2" value="emotion2">
+                <label class="reply-label" for="emotion2">... that are <strong>solely based on the feeling of threat, force or fear</strong>
+                </label> <br>
+
+                <input class="uk-radio error-question" type="checkbox" name="emotionErrorQuestion3"
+                  id="emotion3" value="emotion3">
+                <label class="reply-label" for="emotion3">... that are <strong>solely based on the feeling of pity or guilt</strong>
+                </label> <br>
+
+                <input class="uk-radio error-question" type="checkbox" name="emotionErrorQuestion4"
+                  id="emotion4" value="emotion4">
+                <label class="reply-label" for="emotion4">... that are <strong>solely based on the feeling of rejection or false association</strong>
+                </label> <br>
+
+                <input class="uk-radio error-question" type="checkbox" name="emotionErrorQuestion5"
+                  id="emotion5" value="emotion5">
+                <label class="reply-label" for="emotion5">... that are <strong>attacking, abusing or offending</strong>
+                </label>
+              </div>
+            </div>
+          </div>
+      </div>
+
+        <!-- Best appropriateness-->
+        <div class="uk-form-controls subcategory-container">
+          <HR width="90%"  color="#519459" size="2" style="margin-top: 20px; margin-bottom: 20px;">
+            <div class="uk-width-1-3">
+              <h5>The argument is (partially/fully) inappropriate because <strong>it does not contribute to the resolution of the issue</strong> ...</h5>
+              <div class="uk-form-controls">
+                <input class="uk-radio  commitment-question " type="radio"
+                  name="commitmentQuestion" id="commitment-yes-reply" value="yes">
+                <label class="reply-label" for="commitment-yes-reply"> Yes</label> <br>
+                <input class="uk-radio  commitment-question" type="radio"
+                  name="commitmentQuestion" id="commitment-no-reply" value="no">
+                <label class="reply-label" for="commitment-no-reply"> No</label>
+              </div>
+              <div class="commitment-error-types" style="margin-left: 60%; margin-top:-5.2%; width:max-content" id="errors-of">
+                <div class="uk-container">
+                  <input class="uk-radio error-question" type="checkbox" name="commitmentErrorQuestion1"
+                    id="commitment1" value="commitment1">
+                  <label class="reply-label" for="commitment1">... since <strong>the issue or discussion is not taken seriously</strong>
+                  </label> <br>
+  
+                  <input class="uk-radio error-question" type="checkbox" name="commitmentErrorQuestion2"
+                    id="commitment2" value="commitment2">
+                  <label class="reply-label" for="commitment2">... since <strong>it displays the refusal to consider arguments of the opposing point of view</strong>
+                  </label>
+                </div>
+              </div>
+            </div>
+        </div>
+
+          <!-- Best appropriateness-->
+          <div class="uk-form-controls subcategory-container">
+            <HR width="90%"  color="#519459" size="2" style="margin-top: 20px; margin-bottom: 20px;">
+              <div class="uk-width-1-3">
+                <h5>The argument is (partially/fully) inappropriate because <strong>it is confusing/hard to follow</strong> ...</h5>
+                <div class="uk-form-controls">
+                  <input class="uk-radio  confusion-question " type="radio"
+                    name="confusionQuestion" id="confusion-yes-reply" value="yes">
+                  <label class="reply-label" for="confusion-yes-reply"> Yes</label> <br>
+                  <input class="uk-radio  confusion-question" type="radio"
+                    name="confusionQuestion" id="confusion-no-reply" value="no">
+                  <label class="reply-label" for="confusion-no-reply"> No</label>
+                </div>
+                <div class="confusion-error-types" style="margin-left: 60%; margin-top:-5.2%; width:max-content" id="errors-of">
+                  <div class="uk-container">
+                    <input class="uk-radio error-question" type="checkbox" name="confusionErrorQuestion1"
+                      id="confusion1" value="confusion1">
+                    <label class="reply-label" for="confusion1">... since <strong>the main point is unclear</strong>
+                    </label> <br>
+      
+                    <input class="uk-radio error-question" type="checkbox" name="confusionErrorQuestion2"
+                      id="confusion2" value="confusion2">
+                    <label class="reply-label" for="confusion2">... since <strong>it does not stick to the issue</strong>
+                    </label> <br>
+      
+                    <input class="uk-radio error-question" type="checkbox" name="confusionErrorQuestion3"
+                      id="confusion3" value="confusion3">
+                    <label class="reply-label" for="confusion3">... since <strong>it uses vague/ambiguous/implicit language</strong>
+                    </label> <br>
+    
+                    <input class="uk-radio error-question" type="checkbox" name="confusionErrorQuestion4"
+                      id="confusion4" value="confusion4">
+                    <label class="reply-label" for="confusion4">... since <strong>the complexity of the language is not suitable for the issue</strong>
+                    </label> <br>
+    
+                    <input class="uk-radio error-question" type="checkbox" name="confusionErrorQuestion5"
+                      id="confusion5" value="confusion5">
+                    <label class="reply-label" for="confusion5">... since <strong>the ordering of claims and premises does not seem to follow a logical order</strong>
+                    </label>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+            <!-- Best appropriateness-->
+            <div class="uk-form-controls subcategory-container">
+              <HR width="90%"  color="#519459" size="2" style="margin-top: 20px; margin-bottom: 20px;">
+                <div class="uk-width-1-3">
+                  <h5>The argument is (partially/fully) inappropriate because <strong>of other reasons</strong> ...</h5>
+                  <div class="uk-form-controls">
+                    <input class="uk-radio  other-question " type="radio"
+                      name="otherQuestion" id="other-yes-reply" value="yes">
+                    <label class="reply-label" for="other-yes-reply"> Yes</label> <br>
+                    <input class="uk-radio  other-question" type="radio"
+                      name="otherQuestion" id="other-no-reply" value="no">
+                    <label class="reply-label" for="other-no-reply"> No</label>
+                  </div>
+                  <div class="other-error-types" style="margin-left: 60%; margin-top:-5.2%; width:max-content" id="errors-of">
+                    <div class="uk-container">
+                      <input class="uk-radio error-question" type="checkbox" name="otherErrorQuestion1"
+                        id="other1" value="other1">
+                      <label class="reply-label" for="other1">... namely <strong>notable grammatical issues that reduce readability</strong>
+                      </label> <br>
+      
+                      <input class="uk-radio error-question" type="checkbox" name="otherErrorQuestion2"
+                        id="other2" value="other2">
+                      <label class="reply-label" for="other2">... namely <strong>(please explain)</strong>
+                        <textarea class="uk-textarea" id="otherTextArea" rows="3" name="other" maxlength="1000" minlength="0"
+                        placeholder="Provide a reason why the argument appears to be inappropriate to you. This will help us to improve the guidelines and is much appreciated.">{{comments}}</textarea>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+
+      <HR width="90%"  color="#519459" size="2">
+      <!-- Feedback -->
+      <div class="uk-margin-medium-bottom uk-margin-small-top">
+        <h4 for="commentsTextArea" class="uk-title">Optional feedback</h4>
+        <textarea class="uk-textarea" id="commentsTextArea" rows="3" name="comments" maxlength="1000" minlength="0"
+          placeholder="Provide any comments or additional feedback you may have. This will help us and is much appreciated.">{{comments}}</textarea>
+        <br>
+      </div>
+      <!-- End of feedback-->
+      <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Submit</button>
+    </form>
+  </div>
+</div>
+<br>
+</div>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    // Hide argument preview
+    $('.subcategory-container').prop( "disabled", true );
+    $('.emotion-error-types').prop( "disabled", true );
+    $('.commitment-error-types').prop( "disabled", true );
+    $('.confusion-error-types').prop( "disabled", true );
+    $('.other-error-types').prop( "disabled", true );
+    $("#otherTextArea").prop('disabled', true);
+
+    $('.argument-text').prop( "disabled", true );
+    $('.fluency-container').prop( "disabled", true );
+    $('.generic-container').prop( "disabled", true );
+    $('#pick-best-question').prop( "disabled", true );
+    $('.best-appropriateness-question-option').prop( "disabled", true );
+
+    // Disable submit button
+    $(':input[type="submit"]').prop('disabled', true);
+
+
+    $("input:radio[name='emotionQuestion']").on('change', function () {
+      var isFlaw = $(this).val();
+      if (isFlaw == 'yes') {
+        $('.emotion-error-types').prop( "disabled", false );
+      }
+      if (isFlaw == 'no') {
+        $('.emotion-error-types').prop( "disabled", true );
+        $("input:checkbox[name*='emotionErrorQuestion']").prop('checked', false);
+      }
+    })
+
+    $("input:radio[name='commitmentQuestion']").on('change', function () {
+      var isFlaw = $(this).val();
+      if (isFlaw == 'yes') {
+        $('.commitment-error-types').prop( "disabled", false );
+      }
+      if (isFlaw == 'no') {
+        $('.commitment-error-types').prop( "disabled", true );
+        $("input:checkbox[name*='commitmentErrorQuestion']").prop('checked', false);
+      }
+    })
+
+    $("input:radio[name='confusionQuestion']").on('change', function () {
+      var isFlaw = $(this).val();
+      if (isFlaw == 'yes') {
+        $('.confusion-error-types').prop( "disabled", false );
+      }
+      if (isFlaw == 'no') {
+        $('.confusion-error-types').prop( "disabled", true );
+        $("input:checkbox[name*='confusionErrorQuestion']").prop('checked', false);
+      }
+    })
+
+    $("input:radio[name='otherQuestion']").on('change', function () {
+      var isFlaw = $(this).val();
+      if (isFlaw == 'yes') {
+        $('.other-error-types').prop( "disabled", false );
+      }
+      if (isFlaw == 'no') {
+        $('.other-error-types').prop( "disabled", true );
+        $("input:checkbox[name*='otherErrorQuestion']").prop('checked', false);
+        $("#otherTextArea").val('');
+      }
+    })
+
+    $("#other2").on('change', function () {      
+      if ($("#other2").is(':checked')) {
+        $("#otherTextArea").prop('disabled', false);
+      }
+      else {
+        $("#otherTextArea").prop('disabled', true);
+        $("#otherTextArea").val('');
+      }
+    })
+
+    $("input:radio[name='appropriatenessQuestion']").on('change', function () {
+
+      var isAppropriate = $(this).val();
+      var answeredQuestion = $(this).attr('name')
+
+      if (isAppropriate != 'fully') {
+        $('.subcategory-container').prop( "disabled", false );
+        $(':input[type="submit"]').prop('disabled', true); 
+      }
+      if (isAppropriate == 'fully') {
+        $('.subcategory-container').prop( "disabled", true );
+        $('.emotion-error-types').prop( "disabled", true );
+        $('.commitment-error-types').prop( "disabled", true );
+        $('.confusion-error-types').prop( "disabled", true );
+        $('.other-error-types').prop( "disabled", true );
+        
+        $("input:radio[name='emotionQuestion']").prop('checked', false);
+        $("input:radio[name='commitmentQuestion']").prop('checked', false);
+        $("input:radio[name='confusionQuestion']").prop('checked', false);
+        $("input:radio[name='otherQuestion']").prop('checked', false);
+
+        $('.error-question').prop('checked', false);
+
+        $(':input[type="submit"]').prop('disabled', false); 
+
+        $("#otherTextArea").val('');
+      }
+
+    })
+
+    $("input").on('change', function () {
+      var isAppropriate = $("input:radio[name='appropriatenessQuestion']:checked").val();
+      if (isAppropriate != 'fully') {
+        var emotionQuestion = $('.emotion-question:checked').length
+        var commitmentQuestion = $('.commitment-question:checked').length
+        var confusionQuestion = $('.confusion-question:checked').length
+        var otherQuestion = $('.other-question:checked').length
+
+        var noEmotionChecked = $('.emotion-question[value="no"]:checked').length
+        var noCommitmentChecked = $('.commitment-question[value="no"]:checked').length
+        var noConfusionChecked = $('.confusion-question[value="no"]:checked').length
+        var noOtherChecked = $('.other-question[value="no"]:checked').length
+
+        var emotionQuestionSanity = 0
+        var commitmentQuestionSanity = 0
+        var confusionQuestionSanity = 0
+        var otherQuestionSanity = 0
+
+        var otherQuestionFeedbackSanity = 0
+        if (noEmotionChecked == 1 && noCommitmentChecked == 1 && noConfusionChecked == 1 && noOtherChecked == 1) {
+          $(':input[type="submit"]').prop('disabled', true); 
+        }
+        else if (emotionQuestion == 1 && commitmentQuestion == 1 && confusionQuestion == 1 && otherQuestion == 1) {
+          if (noEmotionChecked==1) {
+            var emotionQuestionSanity = 1
+          }
+          else {
+            if ($("input:checkbox[name*='emotionErrorQuestion']:checked").length > 0) {
+              var emotionQuestionSanity = 1
+            }
+          }
+          if (noCommitmentChecked==1) {
+            var commitmentQuestionSanity = 1
+          }
+          else {
+            if ($("input:checkbox[name*='commitmentErrorQuestion']:checked").length > 0) {
+              var commitmentQuestionSanity = 1
+            }
+          }
+          if (noConfusionChecked==1) {
+            var confusionQuestionSanity = 1
+          }
+          else {
+            if ($("input:checkbox[name*='confusionErrorQuestion']:checked").length > 0) {
+              var confusionQuestionSanity = 1
+            }
+          }
+          if (noOtherChecked==1) {
+            var otherQuestionSanity = 1
+          }
+          else {
+            if ($("input:checkbox[name*='otherErrorQuestion']:checked").length > 0) {
+              if ($("#other2").is(':checked') && $("#otherTextArea").val()) {
+                var otherQuestionSanity = 1
+              }
+              else if (!$("#other2").is(':checked') && $("#other1").is(':checked')) {
+                var otherQuestionSanity = 1
+              }
+              else {
+                var otherQuestionSanity = 0
+              }
+            }
+          }
+          
+          if (emotionQuestionSanity == 1 && commitmentQuestionSanity == 1 && confusionQuestionSanity == 1 && otherQuestionSanity == 1) {
+            $(':input[type="submit"]').prop('disabled', false); 
+          }
+          else {
+            $(':input[type="submit"]').prop('disabled', true); 
+          }
+        }
+      }
+    })
+
+    $('#otherTextArea').on('input propertychange paste', function () {
+      var isAppropriate = $("input:radio[name='appropriatenessQuestion']:checked").val();
+      if (isAppropriate != 'fully') {
+        var emotionQuestion = $('.emotion-question:checked').length
+        var commitmentQuestion = $('.commitment-question:checked').length
+        var confusionQuestion = $('.confusion-question:checked').length
+        var otherQuestion = $('.other-question:checked').length
+
+        var noEmotionChecked = $('.emotion-question[value="no"]:checked').length
+        var noCommitmentChecked = $('.commitment-question[value="no"]:checked').length
+        var noConfusionChecked = $('.confusion-question[value="no"]:checked').length
+        var noOtherChecked = $('.other-question[value="no"]:checked').length
+
+        var emotionQuestionSanity = 0
+        var commitmentQuestionSanity = 0
+        var confusionQuestionSanity = 0
+        var otherQuestionSanity = 0
+
+        var otherQuestionFeedbackSanity = 0
+        if (noEmotionChecked == 1 && noCommitmentChecked == 1 && noConfusionChecked == 1 && noOtherChecked == 1) {
+          $(':input[type="submit"]').prop('disabled', true); 
+        }
+        else if (emotionQuestion == 1 && commitmentQuestion == 1 && confusionQuestion == 1 && otherQuestion == 1) {
+           if (noEmotionChecked==1) {
+            var emotionQuestionSanity = 1
+          }
+          else {
+            if ($("input:checkbox[name*='emotionErrorQuestion']:checked").length > 0) {
+              var emotionQuestionSanity = 1
+            }
+          }
+          if (noCommitmentChecked==1) {
+            var commitmentQuestionSanity = 1
+          }
+          else {
+            if ($("input:checkbox[name*='commitmentErrorQuestion']:checked").length > 0) {
+              var commitmentQuestionSanity = 1
+            }
+          }
+          if (noConfusionChecked==1) {
+            var confusionQuestionSanity = 1
+          }
+          else {
+            if ($("input:checkbox[name*='confusionErrorQuestion']:checked").length > 0) {
+              var confusionQuestionSanity = 1
+            }
+          }
+          if (noOtherChecked==1) {
+            var otherQuestionSanity = 1
+          }
+          else {
+            if ($("input:checkbox[name*='otherErrorQuestion']:checked").length > 0) {
+              if ($("#other2").is(':checked') && $("#otherTextArea").val()) {
+                var otherQuestionSanity = 1
+              }
+              else if (!$("#other2").is(':checked') && $("#other1").is(':checked')) {
+                var otherQuestionSanity = 1
+              }
+              else {
+                var otherQuestionSanity = 0
+              }
+            }
+          }
+          
+          if (emotionQuestionSanity == 1 && commitmentQuestionSanity == 1 && confusionQuestionSanity == 1 && otherQuestionSanity == 1) {
+            $(':input[type="submit"]').prop('disabled', false); 
+          }
+          else {
+            $(':input[type="submit"]').prop('disabled', true); 
+          }
+        }
+      }
+    })
+    
+  })
+</script>
+{% include "study/components/footer.html" %}

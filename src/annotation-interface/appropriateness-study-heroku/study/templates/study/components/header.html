@@ -1,0 +1,46 @@
+{% load static %}
+
+<!doctype html>
+<html>
+
+<head>
+    <!--Use the `title` variable to set the title of the page-->
+
+    <title>Argument Annotations</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/css/uikit.min.css" />
+    <link rel="stylesheet" href="{% static 'study/style.css' %}">
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit-icons.min.js"></script>
+    <script src="{% static 'study/js/jquery-3.4.1.min.js'  %}"></script>
+
+
+
+    {% block head_content %} {% endblock %}
+
+</head>
+
+<body>
+
+    <div class="uk-sticky uk-sticky-fixed uk-background-secondary">
+        <nav class="uk-navbar-container uk-navbar-transparent uk-navbar" uk-navbar>
+            <div class="uk-navbar-left">
+                <span><a class="uk-navbar-item uk-logo white-text " href="{% url 'dashboard' %}"> Argument
+                        Annotations</a></span>
+                {% if username %}
+                <div class="uk-navbar-item uk-position-right white-text">
+                    <span>{{ fullname }} &nbsp; ({{ username }}) &nbsp;</span>
+                    <a href="{% url 'logout'  %}" class="logout-link white-text"> Logout </a>
+                </div>
+                {% endif %}
+            </div>
+
+        </nav>
+    </div>
+    {% block body_content %} {% endblock %}

@@ -1,0 +1,1 @@
+This directory should be replace by downloading the UKP corpus by cloning the git repo from here: https://github.com/UKPLab/emnlp2016-empirical-convincingness

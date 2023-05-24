@@ -1,0 +1,1 @@
+This is the directory all the models and baselines will be saved in when running the code in src/annotation-study-appropriateness-prediction.

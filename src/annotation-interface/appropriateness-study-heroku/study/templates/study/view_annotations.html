@@ -1,0 +1,70 @@
+{% load static %}
+{% include  "study/components/header.html" %}
+
+<div class="uk-container uk-container-large uk-margin">
+
+    <div class="uk-button-group" data-toggle="buttons">
+      <a class="uk-button uk-button-secondary {% if batch_num == 1 %} active {% endif %}" role="button"
+        href="{% url 'view_annotations' '1'  %}" name="batch" id="batch1" autocomplete="off"> Batch 1</a>
+      <a class="uk-button uk-button-secondary {% if batch_num == 2 %} active{% endif %}" role="button"
+        href="{% url 'view_annotations' '2'  %}" name="batch" id="batch2" autocomplete="off"> Batch 2</a>
+      <a class="uk-button uk-button-secondary {% if batch_num == 3 %} active{% endif %}" role="button"
+        href="{% url 'view_annotations' '3'  %}" name="batch" id="batch3" autocomplete="off"> Batch 3</a>
+
+    </div>
+    <a href="{% url 'download_annotations_view' batch_num  %}"> <img src="{% static 'study/img/csv-512.png' %}" /></a>
+
+
+  <div class="uk-alert uk-alert-primary uk-text-center" role="alert">There are {{total_count}} completed annotations in this batch --
+    {{annotated_count}} have at least 3 annotations. </div>
+
+  <h1>Annotations - Current Data</h1>
+
+  {% if annotations_data|length > 0 %}
+  <table class="uk-table uk-table-hover uk-table-large">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Post</th>
+        <th scope="col">Batch</th>
+
+        <th scope="col">Number of annotations</th>
+        <th scope="col">labels</th>
+        <th scope="col">Result</th>
+        <th scope="col">Users</th>
+        <th scope="col">Complete</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in annotations_data.itertuples  %}
+
+      <tr>
+        <td>{{a.id }}</td>
+        <td>{{a.title }}</td>
+
+        <td>{{a.selftext }}</td>
+        <td>{{a.batch}}</td>
+
+        <td>{{a.annotations_num}}</td>
+        <td>{{a.labels}}</td>
+        <td>{{a.result}}</td>
+        <td>{{a.users}}</td>
+
+        <td class="text-center">{% if a.annotations_num >= 3 %}
+          <img src="{% static 'study/img/check.png' %}" width="35px" />
+          {% else %}
+          <img src="{% static 'study/img/not.png' %}" width="35px" />
+          {% endif %}
+        </td>
+
+
+      </tr>
+
+      {% endfor%}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% include "study/components/footer.html" %}

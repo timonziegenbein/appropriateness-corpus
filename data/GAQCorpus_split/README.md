@@ -1,0 +1,1 @@
+This directory should be replace by downloading the GAQCorpus by cloning the git repo from here: https://github.com/grammarly/gaqcorpus

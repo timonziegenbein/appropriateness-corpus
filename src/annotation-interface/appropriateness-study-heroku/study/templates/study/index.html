@@ -1,0 +1,18 @@
+{% include  "study/components/header.html" %}
+
+
+<!-- Login Form -->
+<div class="uk-padding uk-position-center uk-container uk-container-small">
+<form action="{% url 'login'  %}" method="post" class="uk-form-stacked">
+    {% csrf_token %}
+    {% if message %}
+        <div class="alert alert-{{ message_type }}" role="alert">{{ message }}</div>{% endif %}
+        <input type="text" class="uk-input" placeholder="Username" required="required" name="username">
+        <input type="password" class="uk-input" placeholder="Password" required="required" name="password">
+        <div class="uk-margin">
+            <button type="submit" class="uk-button uk-button-primary">Log in</button>
+        </div>
+</form>
+</div>
+
+{% include "study/components/footer.html" %}

@@ -1,0 +1,107 @@
+{% load static %}
+{% include  "study/components/header.html" %}
+
+<div class="uk-container uk-container-large uk-margin-top">
+  <h3>Add user</h3>
+  <form action="{% url 'create_show_users'  %}" enctype="multipart/form-data" method="post" class="uk-form-horizontal">
+    {% csrf_token %}
+    {% if messages %}
+
+    {% for message in  messages %}
+    <div class="uk-alert uk-alert-danger" role="alert">{{message|safe}}</div>
+    {% endfor %}
+    {% endif %}
+    <div class="uk-form-controls">
+      <label for="firstname">First Name</label>
+      <input type="text" class="uk-input" id="firstname" name="firstname" required>
+    </div>
+    <div class="uk-form-controls">
+      <label for="lastname">Last Name</label>
+      <input type="text" class="uk-input" id="lastname" name="lastname" required>
+    </div>
+
+    <div class="uk-form-controls">
+      <label for="email">Email address</label>
+      <input type="email" class="uk-input" id="email" name="email" placeholder="Enter email" required>
+    </div>
+
+    <div class="uk-form-controls">
+      <label for="username">Username</label>
+      <input type="text" class="uk-input" id="username" name="username" required>
+    </div>
+
+    <div class="uk-form-controls">
+      <label for="password">Password</label>
+      <input type="password" class="uk-input" id="password" name="password" placeholder="Password" required>
+    </div>
+    <div class="uk-form-controls">
+      <label for="batch">Batch</label>
+      <select class="uk-select" id="batch" name="batch" required>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+    <div class="uk-form-controls">
+      <input type="checkbox" class="uk-checkbox" id="active" name="active">
+      <label class="form-check-label" for="active">Active</label>
+    </div>
+    <div class="uk-form-controls">
+      <input type="checkbox" class="uk-checkbox" id="staff" name="staff">
+      <label class="staff" for="staff">Staff</label>
+    </div>
+    <div class="uk-form-controls">
+      <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Submit</button>
+    </div>
+  </form>
+</div>
+<div class="uk-container uk-container-large">
+<h3>Current users</h3>
+{% if users_data|length > 0 %}
+<table class="uk-table uk-table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Na</div>me</th>
+      <th scope="col">Username</th>
+      <th scope="col">Staff</th>
+      <th scope="col">Batch</th>
+      <th scope="col">Active</th>
+      <th scope="col">Last Login</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users_data  %}
+
+    <tr>
+      <td>{{user.id }}</td>
+      <td>{{user.first_name }}</td>
+      <td>{{user.last_name }}</td>
+
+      <td>{{user.username }}</td>
+      <td>{{user.is_staff }}</td>
+      <td>{{user.batch }}</td>
+      <td>{{user.is_active }}</td>
+
+      <td>{{user.last_login}}</td>
+
+      <td>
+        {% if user.is_active %}
+        <a href="{% url 'deactivate_user' user.id  %}">deactivate</a></td>
+      {% else %}
+      <a href="{% url 'activate_user' user.id  %}">activate</a></td>
+
+      {% endif%}
+
+
+
+    </tr>
+
+    {% endfor%}
+  </tbody>
+</table>
+</div>
+{% endif %}
+{% include "study/components/footer.html" %}

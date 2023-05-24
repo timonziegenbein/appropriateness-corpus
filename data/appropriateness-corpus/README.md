@@ -1,0 +1,1 @@
+This is the directory the different version are saved in when running the code in src/create-corpus/create_corpus_from_annotations.ipynb.

@@ -1,0 +1,1 @@
+This directory should be replace by downloading the dagstuhl-15512-argquality-corpus-v2 from here: https://zenodo.org/record/3973285
