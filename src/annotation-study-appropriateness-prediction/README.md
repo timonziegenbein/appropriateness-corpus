@@ -9,5 +9,5 @@ To run the multilabel_roberta_baseline.py you can specify the following command 
 
 Example:
 ```bash
-python multilabel_roberta_baseline.py --input ../../data/appropriateness-corpus/appropriateness_corpus_conservative_w_folds.csv --output ../../data/models/multilabel-roberta-baseline --fold 0 --repeat 0 --issue --shuffle
+python multilabel_deberta_baseline.py --input ../../data/appropriateness-corpus/appropriateness_corpus_conservative_w_folds.csv --output ../../data/models/multilabel-roberta-baseline --fold 0 --repeat 0 --issue --shuffle
 ```
