@@ -7,6 +7,8 @@ An argument “has an appropriate style if the used language supports the creati
 > [Wachsmuth et al. (2017)](https://aclanthology.org/E17-1017/)
 
 ## What makes an argument (in)appropriate?
+<iframe width="100%" height="800" src="https://github.com/timonziegenbein/appropriateness-corpus/blob/main/annotation-guidelines/appropriateness-taxonomy-vertical.pdf">
+
 **Toxic Emotions (TE)** An argument has toxic emotions if the emotions appealed to are deceptive or their intensities do not provide room for critical evaluation of the issue by the reader.
 - *Excessive Intensity (EI)* The emotions appealed to by an argument are unnecessarily strong for the discussed issue.
 - *Emotional Deception (ED)* The emotions appealed to are used as deceptive tricks to win, derail, or end the discussion.
