@@ -6,7 +6,7 @@ Most notably we publish the **Appropriateness Corpus**, which is a collection of
 An argument “has an appropriate style if the used language supports the creation of credibility and emotions as well as if it is proportional to the issue.” Their annotation guidelines further suggest that “the choice of words and the grammatical complexity should [...] appear suitable for the topic discussed within the given setting [...], matching the way credibility and emotions are created [...]”. 
 > [Wachsmuth et al. (2017)](https://aclanthology.org/E17-1017/)
 
-## What makes an argument (in)appropriate?
+## What makes an Argument (In)appropriate?
 ![](https://github.com/timonziegenbein/appropriateness-corpus/blob/main/annotation-guidelines/appropriateness-taxonomy-vertical.svg)
 
 **Toxic Emotions (TE)** An argument has toxic emotions if the emotions appealed to are deceptive or their intensities do not provide room for critical evaluation of the issue by the reader.
