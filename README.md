@@ -42,6 +42,5 @@ The annotations guidelines and previous taxonomy versions which we developed dur
 ## Using our Work 
 If you are interested in using the models or the corpus, please cite the following paper:
 
-```
 [Modeling Appropriate Language in Argumentation](https://aclanthology.org/2023.acl-long.238) (Ziegenbein et al., ACL 2023)
-```
+
