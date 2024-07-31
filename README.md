@@ -1,6 +1,8 @@
 This repository contains the source code used to obtain the results reported in the paper [Modeling Appropriate Language in Argumentation](https://aclanthology.org/2023.acl-long.238/) published at the ACL2023.
 --
-Most notably, we publish the **Appropriateness Corpus**, which is a collection of 2191 arguments annotated for appropriateness and its subdimensions, which we derive in the paper (see figure below). The corpus is available [here](https://github.com/timonziegenbein/appropriateness-corpus/blob/main/data/appropriateness-corpus/appropriateness_corpus_conservative.csv). 
+Most notably, we publish the **Appropriateness Corpus**, which is a collection of 2191 arguments annotated for appropriateness and its subdimensions, which we derive in the paper (see figure below). The corpus is available [here](https://github.com/timonziegenbein/appropriateness-corpus/blob/main/data/appropriateness-corpus/appropriateness_corpus_conservative.csv).
+
+**NOTE: You can now get the corpus and the trained models directly from huggingface ([corpus](https://huggingface.co/datasets/timonziegenbein/appropriateness-corpus), [model](timonziegenbein/appropriateness-classifier-multilabel)).**
 
 ## What does Appropriateness mean?
 An argument “has an appropriate style if the used language supports the creation of credibility and emotions as well as if it is proportional to the issue.” Their annotation guidelines further suggest that “the choice of words and the grammatical complexity should [...] appear suitable for the topic discussed within the given setting [...], matching the way credibility and emotions are created [...]”. 
